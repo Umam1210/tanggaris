@@ -95,43 +95,67 @@ export default function Home() {
     localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
   }, [currentPlayer]);
 
-
-  const rollDice = async () => {
-    if (isMoving || winner !== null) return;
-    setIsMoving(true);
-    const dice = Math.floor(Math.random() * 6) + 1;
-    let newPos = positions[currentPlayer];
-    for (let step = 1; step <= dice; step++) {
-      newPos = Math.min(newPos + 1, path.length - 1);
-      setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = newPos; return arr; });
-      await delay(500);
-    }
-    const cellValue = cells[path[newPos]];
-    if (newPos === path.length - 1) { setWinner(currentPlayer); return; }
-    if (typeof cellValue === 'number' && questions[cellValue]) {
-      const q = questions[cellValue];
-      const jump = jumpMap[cellValue];
-      setModalQuestion({ cell: cellValue, text: q.question, options: q.options, correct: q.answer, isImage: q.isImage, jump: jump === 'START' ? 0 : typeof jump === 'number' ? path.indexOf(cells.indexOf(jump)) : undefined });
-    } else {
-      setCurrentPlayer(prev => (prev + 1) % playerCount);
-      setIsMoving(false);
-    }
-  };
-
   const answerQuestion = (selected: string) => {
     if (!modalQuestion) return;
+    const currentPos = positions[currentPlayer];
     const jumpTarget = modalQuestion.jump;
-    if (selected === modalQuestion.correct) setScores(prev => { const arr = [...prev]; arr[currentPlayer]++; return arr; });
-    if (selected === modalQuestion.correct || jumpTarget === undefined) {
-      setModalQuestion(null);
+  
+    // 1) Tambah poin kalau benar
+    if (selected === modalQuestion.correct) {
+      setScores(prev => {
+        const arr = [...prev];
+        arr[currentPlayer]++;
+        return arr;
+      });
+    }
+  
+    // 2) Tentukan posisi baru
+    let newPos = currentPos;
+    if (jumpTarget !== undefined) {
+      if (jumpTarget < currentPos) {
+        // Ini ular: turun hanya kalau SALAH
+        if (selected !== modalQuestion.correct) {
+          newPos = jumpTarget;
+        }
+      } else if (jumpTarget > currentPos) {
+        // Ini tangga: naik hanya kalau BENAR
+        if (selected === modalQuestion.correct) {
+          newPos = jumpTarget;
+        }
+      }
+    }
+  
+    // 3) Terapkan perpindahan pion
+    setPositions(prev => {
+      const arr = [...prev];
+      arr[currentPlayer] = newPos;
+      return arr;
+    });
+  
+    // 4) Tutup modal & ganti giliran
+    setModalQuestion(null);
+    setTimeout(() => {
       setCurrentPlayer(prev => (prev + 1) % playerCount);
       setIsMoving(false);
-      return;
-    }
-    setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = jumpTarget!; return arr; });
-    setModalQuestion(null);
-    setTimeout(() => { setCurrentPlayer(prev => (prev + 1) % playerCount); setIsMoving(false); }, 300);
+    }, 300);
   };
+  
+
+  
+  // const answerQuestion = (selected: string) => {
+  //   if (!modalQuestion) return;
+  //   const jumpTarget = modalQuestion.jump;
+  //   if (selected === modalQuestion.correct) setScores(prev => { const arr = [...prev]; arr[currentPlayer]++; return arr; });
+  //   if (selected === modalQuestion.correct || jumpTarget === undefined) {
+  //     setModalQuestion(null);
+  //     setCurrentPlayer(prev => (prev + 1) % playerCount);
+  //     setIsMoving(false);
+  //     return;
+  //   }
+  //   setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = jumpTarget!; return arr; });
+  //   setModalQuestion(null);
+  //   setTimeout(() => { setCurrentPlayer(prev => (prev + 1) % playerCount); setIsMoving(false); }, 300);
+  // };
 
 
   const resetGame = () => {
@@ -144,7 +168,75 @@ export default function Home() {
     localStorage.clear();
   };
 
-console.log("currentPlayer", currentPlayer);
+  // State for dice animation
+  type DiceValue = 1|2|3|4|5|6;
+  const [diceResult, setDiceResult] = useState<DiceValue>(1);
+  const [rolling, setRolling] = useState<boolean>(false);
+  
+  // Pip patterns for dice faces (positions 0-8 in 3x3 grid)
+  const pipPatterns: Record<DiceValue, number[]> = {
+    1: [4],
+    2: [0,8],
+    3: [0,4,8],
+    4: [0,2,6,8],
+    5: [0,2,4,6,8],
+    6: [0,2,3,5,6,8]
+  };
+  
+  // Animate dice roll: randomize face 10 times, then return final value
+  const animateDice = async (): Promise<DiceValue> => {
+    setRolling(true);
+    let finalValue: DiceValue = diceResult;
+    for (let i = 0; i < 10; i++) {
+      finalValue = (Math.floor(Math.random() * 6) + 1) as DiceValue;
+      setDiceResult(finalValue);
+      await delay(100);
+    }
+    setRolling(false);
+    return finalValue;
+  };
+  
+  // Roll dice and move token
+  const rollDice = async () => {
+    if (isMoving || winner !== null) return;
+    setIsMoving(true);
+  
+    // Show rolling animation and get final roll
+    const finalRoll = await animateDice();
+  
+    // Move pawn step-by-step according to finalRoll
+    let newPos = positions[currentPlayer];
+    for (let step = 1; step <= finalRoll; step++) {
+      newPos = Math.min(newPos + 1, path.length - 1);
+      setPositions(prev => {
+        const arr = [...prev];
+        arr[currentPlayer] = newPos;
+        return arr;
+      });
+      await delay(400);
+    }
+  
+    // Handle landing logic
+    const cellValue = cells[path[newPos]];
+    if (newPos === path.length - 1) {
+      setWinner(currentPlayer);
+    } else if (typeof cellValue === 'number' && questions[cellValue]) {
+      const q = questions[cellValue];
+      const jump = jumpMap[cellValue];
+      setModalQuestion({
+        cell: cellValue,
+        text: q.question,
+        options: q.options,
+        correct: q.answer,
+        isImage: q.isImage,
+        jump: jump === 'START' ? 0 : typeof jump === 'number' ? path.indexOf(cells.indexOf(jump)) : undefined
+      });
+    } else {
+      setCurrentPlayer(prev => (prev + 1) % playerCount);
+    }
+  
+    setIsMoving(false);
+  };
 
   return (
     <>
@@ -201,10 +293,10 @@ console.log("currentPlayer", currentPlayer);
       {winner !== null && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white p-6 rounded shadow-lg w-96 text-center">
-            <h2 className="text-xl font-bold mb-4">Pemain {winner + 1} Menang!</h2>
+            <h2 className="text-xl font-bold mb-4">Siswa {winner + 1} Menang!</h2>
             <h3 className="mb-2 font-semibold">Skor Akhir:</h3>
             {scores.map((score, idx) => (
-              <p key={idx}>Pemain {idx + 1}: {score} poin</p>
+              <p key={idx}>Siswa {idx + 1} mendapatkan {score * 100} poin</p>
             ))}
             <button onClick={resetGame} className="mt-4 px-4 py-2 bg-green-600 text-white rounded">Main Lagi</button>
           </div>
@@ -244,12 +336,32 @@ console.log("currentPlayer", currentPlayer);
           })}
         </div>
         <div className="mb-4 pt-20 text-lg font-semibold">
-          Giliran Pemain: {currentPlayer + 1}
+          Giliran Siswa: {currentPlayer + 1}
         </div>
-        <button
-          className="mb-4 px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-          onClick={rollDice} disabled={isMoving || winner !== null}
-        >Roll Dice</button>
+       <div className="flex items-center space-x-4">
+      <motion.div
+        animate={rolling ? { x: [0, -10, 10, -10, 10, 0] } : { x: 0 }}
+        transition={{ duration: rolling ? 0.6 : 0 }}
+        className="w-16 h-16 bg-white border-2 flex items-center justify-center rounded"
+      >
+        <div className="grid grid-cols-3 grid-rows-3 w-full h-full gap-1 p-1">
+          {Array.from({ length: 9 }).map((_, idx) => (
+            <div key={idx} className="flex items-center justify-center">
+              {pipPatterns[diceResult].includes(idx) && (
+                <div className="w-2 h-2 bg-black rounded-full"></div>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+      <button
+        onClick={rollDice}
+        disabled={isMoving || winner !== null}
+        className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
+      >
+        {rolling ? 'Rolling...' : 'Roll Dice'}
+      </button>
+    </div>
       </div>
     </>
   );
