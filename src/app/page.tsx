@@ -175,7 +175,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div className="relative w-[800px] h-[820px] mx-auto">
           <Image
-            src="/Black and White Abstract Geometric Business Rectangle Logo.png"
+            src="/Black and White Abstract Geometric Business Rectangle Logo1.png"
             alt="Snake Ladder Board"
             layout="fill"
             objectFit="cover"
