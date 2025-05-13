@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { div } from 'framer-motion/client';
+
 
 export default function Home() {
   const cells = [
@@ -75,6 +77,9 @@ export default function Home() {
   const [currentPlayer, setCurrentPlayer] = useState<number>(() =>
     getStored('currentPlayer', 0)
   );
+
+  const [help1, setHelp1] = useState<boolean>(false);
+  const [help2, setHelp2] = useState<boolean>(false);
   const [isMoving, setIsMoving] = useState(false);
   const [modalQuestion, setModalQuestion] = useState<null | { cell: number; text: string; options: string[]; correct: string; isImage: boolean; jump?: number }>(null);
   const [winner, setWinner] = useState<number | null>(null);
@@ -140,11 +145,13 @@ export default function Home() {
     localStorage.clear();
   };
 
+console.log("currentPlayer", currentPlayer);
+
   return (
     <>
       {modalQuestion && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-30">
-          <div className="bg-white p-6 rounded shadow-lg w-96">
+          <div className="bg-white p-6 rounded shadow-lg min-w-96">
             <p className="mb-4 font-bold text-lg text-center">{modalQuestion.text}</p>
             <div className="flex flex-col space-y-2">
               {modalQuestion.options.map((opt, i) => (
@@ -155,6 +162,39 @@ export default function Home() {
                 </button>
               ))}
             </div>
+            {currentPlayer === 1 && <>
+              <button onClick={() => setHelp1(!help1)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                bantuan 1
+              </button>
+              {help1 && 
+                <Image src={`/help.jpg`} alt='bantuan' width={700} height={740} className='mt-4' />
+              }
+            </>}
+            {currentPlayer == 2 && <>
+              <button onClick={() => setHelp1(!help1)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                bantuan 1
+              </button>
+              {help1 && 
+                <Image src={`/help.jpg`} alt='bantuan' width={700} height={740} className='mt-4' />
+              }
+               <button onClick={() => setHelp2(!help2)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded ml-2">
+                bantuan 2
+              </button>
+              {help2 && 
+                <div className='mt-4 w-full h-full flex justify-center'>
+                <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube-nocookie.com/embed/sIuaavYbQPg"
+                title="YouTube video player"
+                style={{ border: "0" }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded shadow-lg"
+                />              
+                </div>
+              }
+            </>}
           </div>
         </div>
       )}
