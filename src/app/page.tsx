@@ -32,17 +32,31 @@ export default function Home() {
     19: 21
   };
 
-  const questions: Record<number, { question: string; options: string[]; answer: string }> = {
-    1: { question: "2 + 3 = ?", options: ["5", "4"], answer: "5" },
-    2: { question: "5 - 2 = ?", options: ["2", "3"], answer: "3" },
-    3: { question: "1 + 1 = ?", options: ["3", "2"], answer: "2" },
-    4: { question: "7 - 4 = ?", options: ["3", "2"], answer: "3" },
-    5: { question: "10 - 6 = ?", options: ["4", "5"], answer: "4" },
-    6: { question: "3 + 3 = ?", options: ["6", "5"], answer: "6" },
-    7: { question: "8 - 3 = ?", options: ["5", "6"], answer: "5" },
-    8: { question: "2 + 4 = ?", options: ["6", "7"], answer: "6" },
-    9: { question: "9 - 1 = ?", options: ["7", "8"], answer: "8" },
-    10: { question: "6 + 1 = ?", options: ["7", "6"], answer: "7" }
+  const questions: Record<string, { question: string; options: string[]; answer: string, isImage: boolean }> = {
+    1: { question: "Gambar yang terdapat pada kotak nomor 1, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Bersilang"],  isImage: false, answer: "Bersilang" },
+    2: { question: "Gambar yang terdapat pada kotak nomor 2, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Sejajar"],  isImage: false, answer: "Bersilang" },
+    3: { question: "Gambar yang terdapat pada kotak nomor 3, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Sejajar"],  isImage: false, answer: "Sejajar" },
+    4: { question: "Gambar yang terdapat pada kotak nomor 4, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Berhimpit" },
+    5: { question: "Gambar yang terdapat pada kotak nomor 5, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Berhimpit"],  isImage: false, answer: "Berhimpit" },
+    6: { question: "Dibawah ini yang merupakan gambar garis sejajar adalah...", options: ["6.1", "6.2"],  isImage: true, answer: "6.1" },
+    7: { question: "Gambar yang terdapat pada kotak nomor 7, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Berhimpit"],  isImage: false, answer: "Tegak Lurus" },
+    8: { question: "Gambar yang terdapat pada kotak nomor 8, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Bersilang"],  isImage: false, answer: "Bersilang" },
+    9: { question: "Gambar yang terdapat pada kotak nomor 9, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Bersilang"],  isImage: false, answer: "Sejajar" },
+    10: { question: "Gambar yang terdapat pada kotak nomor 10, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Sejajar"],  isImage: false, answer: "Sejajar" },
+    11: { question: "Gambar yang terdapat pada kotak nomor 11, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Sejajar"],  isImage: false, answer: "Berhimpit" },
+    12: { question: "Dibawah ini yang merupakan gambar garis berhimpit adalah", options: ["12.1", "12.2"],  isImage: true, answer: "12.2" },
+    13: { question: "Gambar yang terdapat pada kotak nomor 13, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "berhimpit"],  isImage: false, answer: "Bersilang" },
+    14: { question: "Gambar yang terdapat pada kotak nomor 14, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
+    15: { question: "Gambar yang terdapat pada kotak nomor 15, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
+    16: { question: "Gambar yang terdapat pada kotak nomor 16, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Berhimpit"],  isImage: false, answer: "Sejajar" },
+    17: { question: "Gambar yang terdapat pada kotak nomor 17, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Berhimpit"],  isImage: false, answer: "Sejajar" },
+    18: { question: "Dibawah ini yang merupakan gambar garis berhimpit adalah", options: ["18.1", "18.2"],  isImage: true, answer: "18.2" },
+    19: { question: "Gambar yang terdapat pada kotak nomor 19, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Berhimpit" },
+    20: { question: "Gambar yang terdapat pada kotak nomor 20, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
+    21: { question: "Gambar yang terdapat pada kotak nomor 21, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Tegak Lurus"],  isImage: false, answer: "Bersilang" },
+    22: { question: "Dibawah ini yang merupakan gambar garis bersilang adalah...", options: ["22.1", "22.2"],  isImage: true, answer: "22.1" },
+    23: { question: "Gambar yang terdapat pada kotak nomor 23, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
+
   };
 
   const playerCount = 3;
@@ -62,7 +76,7 @@ export default function Home() {
     getStored('currentPlayer', 0)
   );
   const [isMoving, setIsMoving] = useState(false);
-  const [modalQuestion, setModalQuestion] = useState<null | { text: string; options: string[]; correct: string; jump?: number }>(null);
+  const [modalQuestion, setModalQuestion] = useState<null | { cell: number; text: string; options: string[]; correct: string; isImage: boolean; jump?: number }>(null);
   const [winner, setWinner] = useState<number | null>(null);
 
   const boardSize = 790;
@@ -77,32 +91,23 @@ export default function Home() {
     localStorage.setItem('currentPlayer', JSON.stringify(currentPlayer));
   }, [currentPlayer]);
 
+
   const rollDice = async () => {
     if (isMoving || winner !== null) return;
     setIsMoving(true);
     const dice = Math.floor(Math.random() * 6) + 1;
     let newPos = positions[currentPlayer];
-
     for (let step = 1; step <= dice; step++) {
       newPos = Math.min(newPos + 1, path.length - 1);
-      setPositions(prev => {
-        const arr = [...prev]; arr[currentPlayer] = newPos; return arr;
-      });
+      setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = newPos; return arr; });
       await delay(500);
     }
-
-    const landedIdx = path[newPos];
-    const cellValue = cells[landedIdx];
-
-    if (newPos === path.length - 1) {
-      setWinner(currentPlayer);
-      return;
-    }
-
+    const cellValue = cells[path[newPos]];
+    if (newPos === path.length - 1) { setWinner(currentPlayer); return; }
     if (typeof cellValue === 'number' && questions[cellValue]) {
-      const { question, options, answer } = questions[cellValue];
+      const q = questions[cellValue];
       const jump = jumpMap[cellValue];
-      setModalQuestion({ text: question, options, correct: answer, jump: jump === 'START' ? 0 : typeof jump === 'number' ? path.indexOf(cells.indexOf(jump)) : undefined });
+      setModalQuestion({ cell: cellValue, text: q.question, options: q.options, correct: q.answer, isImage: q.isImage, jump: jump === 'START' ? 0 : typeof jump === 'number' ? path.indexOf(cells.indexOf(jump)) : undefined });
     } else {
       setCurrentPlayer(prev => (prev + 1) % playerCount);
       setIsMoving(false);
@@ -112,30 +117,18 @@ export default function Home() {
   const answerQuestion = (selected: string) => {
     if (!modalQuestion) return;
     const jumpTarget = modalQuestion.jump;
-    if (selected === modalQuestion.correct) {
-      setScores(prev => {
-        const newScores = [...prev];
-        newScores[currentPlayer] += 1;
-        return newScores;
-      });
-    }
+    if (selected === modalQuestion.correct) setScores(prev => { const arr = [...prev]; arr[currentPlayer]++; return arr; });
     if (selected === modalQuestion.correct || jumpTarget === undefined) {
       setModalQuestion(null);
       setCurrentPlayer(prev => (prev + 1) % playerCount);
       setIsMoving(false);
       return;
     }
-    setPositions(prev => {
-      const arr = [...prev];
-      arr[currentPlayer] = jumpTarget;
-      return arr;
-    });
+    setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = jumpTarget!; return arr; });
     setModalQuestion(null);
-    setTimeout(() => {
-      setCurrentPlayer(prev => (prev + 1) % playerCount);
-      setIsMoving(false);
-    }, 300);
+    setTimeout(() => { setCurrentPlayer(prev => (prev + 1) % playerCount); setIsMoving(false); }, 300);
   };
+
 
   const resetGame = () => {
     setPositions(Array(playerCount).fill(0));
@@ -155,8 +148,10 @@ export default function Home() {
             <p className="mb-4 font-bold text-lg text-center">{modalQuestion.text}</p>
             <div className="flex flex-col space-y-2">
               {modalQuestion.options.map((opt, i) => (
-                <button key={i} className="px-4 py-2 bg-blue-500 text-white rounded" onClick={() => answerQuestion(opt)}>
-                  {opt}
+                <button key={i} className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded" onClick={() => answerQuestion(opt)}>
+                  {modalQuestion.isImage && opt.includes('.') ? (
+                    <Image src={`/${opt}.png`} alt={opt} width={50} height={50} />
+                  ) : opt}
                 </button>
               ))}
             </div>
