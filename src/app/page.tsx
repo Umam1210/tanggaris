@@ -141,22 +141,6 @@ export default function Home() {
   };
   
 
-  
-  // const answerQuestion = (selected: string) => {
-  //   if (!modalQuestion) return;
-  //   const jumpTarget = modalQuestion.jump;
-  //   if (selected === modalQuestion.correct) setScores(prev => { const arr = [...prev]; arr[currentPlayer]++; return arr; });
-  //   if (selected === modalQuestion.correct || jumpTarget === undefined) {
-  //     setModalQuestion(null);
-  //     setCurrentPlayer(prev => (prev + 1) % playerCount);
-  //     setIsMoving(false);
-  //     return;
-  //   }
-  //   setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = jumpTarget!; return arr; });
-  //   setModalQuestion(null);
-  //   setTimeout(() => { setCurrentPlayer(prev => (prev + 1) % playerCount); setIsMoving(false); }, 300);
-  // };
-
 
   const resetGame = () => {
     setPositions(Array(playerCount).fill(0));
@@ -173,7 +157,6 @@ export default function Home() {
   const [diceResult, setDiceResult] = useState<DiceValue>(1);
   const [rolling, setRolling] = useState<boolean>(false);
   
-  // Pip patterns for dice faces (positions 0-8 in 3x3 grid)
   const pipPatterns: Record<DiceValue, number[]> = {
     1: [4],
     2: [0,8],
@@ -183,7 +166,6 @@ export default function Home() {
     6: [0,2,3,5,6,8]
   };
   
-  // Animate dice roll: randomize face 10 times, then return final value
   const animateDice = async (): Promise<DiceValue> => {
     setRolling(true);
     let finalValue: DiceValue = diceResult;
@@ -237,6 +219,18 @@ export default function Home() {
   
     setIsMoving(false);
   };
+  
+  function getTopScorer(scores: number[]): number {
+    const max = Math.max(...scores);
+    return scores.indexOf(max);
+  }
+  
+
+
+
+  console.log("position", positions, scores, winner);
+  
+
 
   return (
     <>
@@ -290,10 +284,11 @@ export default function Home() {
         </div>
       )}
 
+
       {winner !== null && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white p-6 rounded shadow-lg w-96 text-center">
-            <h2 className="text-xl font-bold mb-4">Siswa {winner + 1} Menang!</h2>
+            <h2 className="text-xl font-bold mb-4">Siswa {getTopScorer(scores) + 1} Menang!</h2>
             <h3 className="mb-2 font-semibold">Skor Akhir:</h3>
             {scores.map((score, idx) => (
               <p key={idx}>Siswa {idx + 1} mendapatkan {score * 100} poin</p>
