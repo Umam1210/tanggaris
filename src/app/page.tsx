@@ -34,19 +34,19 @@ export default function Home() {
   };
 
   const questions: Record<string, { question: string; options: string[]; answer: string, isImage: boolean }> = {
-    1: { question: "Gambar yang terdapat pada kotak nomor 1, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Bersilang"],  isImage: false, answer: "Bersilang" },
-    2: { question: "Gambar yang terdapat pada kotak nomor 2, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Sejajar"],  isImage: false, answer: "Bersilang" },
+    1: { question: "Gambar yang terdapat pada kotak nomor 1, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Bersilangan"],  isImage: false, answer: "Bersilangan" },
+    2: { question: "Gambar yang terdapat pada kotak nomor 2, termasuk kedalam hubungan antar garis...", options: ["Bersilangan", "Sejajar"],  isImage: false, answer: "Bersilangan" },
     3: { question: "Gambar yang terdapat pada kotak nomor 3, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Sejajar"],  isImage: false, answer: "Sejajar" },
     4: { question: "Gambar yang terdapat pada kotak nomor 4, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Berhimpit" },
-    5: { question: "Gambar yang terdapat pada kotak nomor 5, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Berhimpit"],  isImage: false, answer: "Berhimpit" },
+    5: { question: "Gambar yang terdapat pada kotak nomor 5, termasuk kedalam hubungan antar garis...", options: ["Bersilangan", "Berhimpit"],  isImage: false, answer: "Berhimpit" },
     6: { question: "Dibawah ini yang merupakan gambar garis sejajar adalah...", options: ["6.1", "6.2"],  isImage: true, answer: "6.1" },
     7: { question: "Gambar yang terdapat pada kotak nomor 7, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Berhimpit"],  isImage: false, answer: "Tegak Lurus" },
-    8: { question: "Gambar yang terdapat pada kotak nomor 8, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Bersilang"],  isImage: false, answer: "Bersilang" },
-    9: { question: "Gambar yang terdapat pada kotak nomor 9, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Bersilang"],  isImage: false, answer: "Sejajar" },
+    8: { question: "Gambar yang terdapat pada kotak nomor 8, termasuk kedalam hubungan antar garis...", options: ["Tegak Lurus", "Bersilangan"],  isImage: false, answer: "Bersilangan" },
+    9: { question: "Gambar yang terdapat pada kotak nomor 9, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Bersilangan"],  isImage: false, answer: "Sejajar" },
     10: { question: "Gambar yang terdapat pada kotak nomor 10, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Sejajar"],  isImage: false, answer: "Sejajar" },
     11: { question: "Gambar yang terdapat pada kotak nomor 11, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Sejajar"],  isImage: false, answer: "Berhimpit" },
     12: { question: "Dibawah ini yang merupakan gambar garis berhimpit adalah", options: ["12.1", "12.2"],  isImage: true, answer: "12.2" },
-    13: { question: "Gambar yang terdapat pada kotak nomor 13, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "berhimpit"],  isImage: false, answer: "Bersilang" },
+    13: { question: "Gambar yang terdapat pada kotak nomor 13, termasuk kedalam hubungan antar garis...", options: ["Bersilangan", "berhimpit"],  isImage: false, answer: "Bersilangan" },
     14: { question: "Gambar yang terdapat pada kotak nomor 14, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
     15: { question: "Gambar yang terdapat pada kotak nomor 15, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
     16: { question: "Gambar yang terdapat pada kotak nomor 16, termasuk kedalam hubungan antar garis...", options: ["Sejajar", "Berhimpit"],  isImage: false, answer: "Sejajar" },
@@ -54,9 +54,9 @@ export default function Home() {
     18: { question: "Dibawah ini yang merupakan gambar garis berhimpit adalah", options: ["18.1", "18.2"],  isImage: true, answer: "18.2" },
     19: { question: "Gambar yang terdapat pada kotak nomor 19, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Berhimpit" },
     20: { question: "Gambar yang terdapat pada kotak nomor 20, termasuk kedalam hubungan antar garis...", options: ["Berhimpit", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
-    21: { question: "Gambar yang terdapat pada kotak nomor 21, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Tegak Lurus"],  isImage: false, answer: "Bersilang" },
-    22: { question: "Dibawah ini yang merupakan gambar garis bersilang adalah...", options: ["22.1", "22.2"],  isImage: true, answer: "22.1" },
-    23: { question: "Gambar yang terdapat pada kotak nomor 23, termasuk kedalam hubungan antar garis...", options: ["Bersilang", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
+    21: { question: "Gambar yang terdapat pada kotak nomor 21, termasuk kedalam hubungan antar garis...", options: ["Bersilangan", "Tegak Lurus"],  isImage: false, answer: "Bersilangan" },
+    22: { question: "Dibawah ini yang merupakan gambar garis bersilangan adalah...", options: ["22.1", "22.2"],  isImage: true, answer: "22.1" },
+    23: { question: "Gambar yang terdapat pada kotak nomor 23, termasuk kedalam hubungan antar garis...", options: ["Bersilangan", "Tegak Lurus"],  isImage: false, answer: "Tegak Lurus" },
 
   };
 
@@ -141,22 +141,6 @@ export default function Home() {
   };
   
 
-  
-  // const answerQuestion = (selected: string) => {
-  //   if (!modalQuestion) return;
-  //   const jumpTarget = modalQuestion.jump;
-  //   if (selected === modalQuestion.correct) setScores(prev => { const arr = [...prev]; arr[currentPlayer]++; return arr; });
-  //   if (selected === modalQuestion.correct || jumpTarget === undefined) {
-  //     setModalQuestion(null);
-  //     setCurrentPlayer(prev => (prev + 1) % playerCount);
-  //     setIsMoving(false);
-  //     return;
-  //   }
-  //   setPositions(prev => { const arr = [...prev]; arr[currentPlayer] = jumpTarget!; return arr; });
-  //   setModalQuestion(null);
-  //   setTimeout(() => { setCurrentPlayer(prev => (prev + 1) % playerCount); setIsMoving(false); }, 300);
-  // };
-
 
   const resetGame = () => {
     setPositions(Array(playerCount).fill(0));
@@ -173,7 +157,6 @@ export default function Home() {
   const [diceResult, setDiceResult] = useState<DiceValue>(1);
   const [rolling, setRolling] = useState<boolean>(false);
   
-  // Pip patterns for dice faces (positions 0-8 in 3x3 grid)
   const pipPatterns: Record<DiceValue, number[]> = {
     1: [4],
     2: [0,8],
@@ -183,7 +166,6 @@ export default function Home() {
     6: [0,2,3,5,6,8]
   };
   
-  // Animate dice roll: randomize face 10 times, then return final value
   const animateDice = async (): Promise<DiceValue> => {
     setRolling(true);
     let finalValue: DiceValue = diceResult;
@@ -237,6 +219,12 @@ export default function Home() {
   
     setIsMoving(false);
   };
+  
+  function getTopScorer(scores: number[]): number {
+    const max = Math.max(...scores);
+    return scores.indexOf(max);
+  }
+  
 
   return (
     <>
@@ -290,10 +278,11 @@ export default function Home() {
         </div>
       )}
 
+
       {winner !== null && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
           <div className="bg-white p-6 rounded shadow-lg w-96 text-center">
-            <h2 className="text-xl font-bold mb-4">Siswa {winner + 1} Menang!</h2>
+            <h2 className="text-xl font-bold mb-4">Siswa {getTopScorer(scores) + 1} Menang!</h2>
             <h3 className="mb-2 font-semibold">Skor Akhir:</h3>
             {scores.map((score, idx) => (
               <p key={idx}>Siswa {idx + 1} mendapatkan {score * 100} poin</p>
@@ -360,6 +349,13 @@ export default function Home() {
         className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
       >
         {rolling ? 'Rolling...' : 'Roll Dice'}
+          </button>
+          
+      <button
+        onClick={resetGame}
+        className="px-6 py-2 bg-red-500 text-white rounded disabled:opacity-50"
+          >
+            Reset
       </button>
     </div>
       </div>
